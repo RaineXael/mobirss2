@@ -37,7 +37,7 @@ export default function MainView({navigation}){
 
        
     const feedJSX = feedList.map(elem => {
-        return (<FeedCard feed={elem} key={elem.link} style={styles.card}></FeedCard>)
+        return (<FeedCard feed={elem} key={elem.link} style={styles.card} navigation={navigation}></FeedCard>)
     });
     console.log(feedJSX)
 
@@ -47,6 +47,10 @@ export default function MainView({navigation}){
             <FeedInputDialog saveFeedFN={saveFeeds} feedList={feedList} visible={visible} setVisible={setVisible} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {feedJSX}
+
+                
+                <Button onPress={()=>{navigation.push("First")}}>Test Nav</Button>
+
             </ScrollView>
             <FAB icon="plus" size='large' style={styles.fab} onPress={() => setVisible(true)}>Add New Feed</FAB>
         </View>
@@ -58,7 +62,7 @@ export default function MainView({navigation}){
 
 //<Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
 
-function FeedCard({ feed }) {
+function FeedCard({ feed, navigation }) {
 
     const [visible, setVisible] = useState(false);
     const closeMenu = () => {setVisible(false)}
@@ -69,10 +73,8 @@ function FeedCard({ feed }) {
             onDismiss={closeMenu}
             anchor={
 
-                <Card elevation={5} onPress={() => 
-                //navigate to feed menu with item here
-                {}
-                } style={styles.card} onLongPress={() => setVisible(true)}>
+                /*navigate to feed menu with item on the onpressc*/
+                <Card elevation={5} onPress={() => {navigation.push("First")}} style={styles.card} onLongPress={() => setVisible(true)}>
                     <Card.Title title={feed.title} subtitle={feed.link} 
                     right={() => <Badge>24</Badge>}/>
                     <Card.Content>
