@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,  View } from 'react-native';
 import { Text, PaperProvider, Button } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import CustomNavigationBar from './routes/CustomAppBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +13,11 @@ export default function App() {
       <PaperProvider>
       <NavigationContainer>
       
-      <Stack.Navigator initialRouteName='First'>
+      <Stack.Navigator initialRouteName='First'
+       screenOptions={{
+        header: (props) => <CustomNavigationBar {...props} />,
+      }}>
+        
         <Stack.Screen name="First" component={RouteOne}/>
         <Stack.Screen name="Second" component={RouteTwo}/>
         <Stack.Screen name="Pushed" component={PushedRoute}/>
@@ -23,6 +28,10 @@ export default function App() {
       
     
   );
+}
+
+function SettingsScreen({navigation}){
+  
 }
 
 function RouteOne({navigation}){
