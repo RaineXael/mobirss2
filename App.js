@@ -1,38 +1,74 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet,  View } from 'react-native';
-import { Text, PaperProvider, Button } from 'react-native-paper';
+import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
+import { StyleSheet,  View, useColorScheme } from 'react-native';
+import { Text, PaperProvider, Button, MD3DarkTheme,MD3LightTheme, Surface } from 'react-native-paper';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CustomNavigationBar from './routes/CustomAppBar';
+import MainView from './routes/MainView';
+import { useState, useEffect } from 'react';
+import { getData } from "./modules/DataManager";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+
+
+  const [isDark, setDark] = useState(false);
+
+   const colorScheme = useColorScheme();
+   const { theme } = useMaterial3Theme();
+ 
+   const paperTheme =
+      isDark
+       ? { ...MD3DarkTheme, colors: theme.dark }
+       : { ...MD3LightTheme, colors: theme.light };
+
+
+       useEffect(()=>{
+        getData('darkmode').then(storedDark => {
+          setDark(storedDark === "true");
+         
+        })
+       },[])
+
+
   return (
     
-      <PaperProvider>
+      <PaperProvider theme={paperTheme}>
+      <Surface  style={styles.container}>
       <NavigationContainer>
       
-      <Stack.Navigator initialRouteName='First'
+      <Stack.Navigator initialRouteName='Main'
        screenOptions={{
         header: (props) => <CustomNavigationBar {...props} />,
       }}>
-        
+        <Stack.Screen name="Main" component={MainView}/>
         <Stack.Screen name="First" component={RouteOne}/>
         <Stack.Screen name="Second" component={RouteTwo}/>
         <Stack.Screen name="Pushed" component={PushedRoute}/>
       </Stack.Navigator>
       <StatusBar style="auto" />
       </NavigationContainer>
+      </Surface>
       </PaperProvider>
       
     
   );
 }
 
-function SettingsScreen({navigation}){
-  
-}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: '100%'
+  },
+});
+
+
+//Below are demo navs to get used to React-Nav
 
 function RouteOne({navigation}){
   return(<View>
