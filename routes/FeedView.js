@@ -30,7 +30,8 @@ function Titlebar({title, setter, url}){
   );
 }
 
-export function ArticleList({feed, setter}){
+export function FeedView({navigation, route}){
+  console.log(route.params)
     /* {feed, setter}*/
   const [currentArticle, setCurrentArticle] = useState(null);
   const itemJSX = feed.item.map(elem => {

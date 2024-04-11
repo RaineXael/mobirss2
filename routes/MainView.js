@@ -1,5 +1,5 @@
 //Main View where all the RSS feeds will be displayed
-import { Text, Card, Button, List, FAB, Appbar, Dialog, Badge, Menu } from "react-native-paper";
+import { Text, Card, Button, Surface, FAB, Appbar, ActivityIndicator, Badge, Menu } from "react-native-paper";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { FeedInputDialog } from "./FeedAddDialog";
 import { useState, useEffect } from "react";
@@ -7,6 +7,8 @@ import { getData, storeData } from "../modules/DataManager";
 
 export default function MainView({navigation}){
 
+    navigation.setOptions({rightBar:{icon:'cog', onClick:()=>{navigation.navigate('Settings')}}})
+    
     const [visible, setVisible] = useState(false); //for the feed input menu
     const saveFeeds = async () => {
         await storeData('saved-feeds',feedList)
@@ -43,17 +45,13 @@ export default function MainView({navigation}){
 
 
     return (
-        <View style={styles.view}>
+        <Surface style={styles.surface}>
             <FeedInputDialog saveFeedFN={saveFeeds} feedList={feedList} visible={visible} setVisible={setVisible} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {feedJSX}
-
-                
-                <Button onPress={()=>{navigation.push("First")}}>Test Nav</Button>
-
             </ScrollView>
             <FAB icon="plus" size='large' style={styles.fab} onPress={() => setVisible(true)}>Add New Feed</FAB>
-        </View>
+        </Surface>
     );
 
 
@@ -74,7 +72,7 @@ function FeedCard({ feed, navigation }) {
             anchor={
 
                 /*navigate to feed menu with item on the onpressc*/
-                <Card elevation={5} onPress={() => {navigation.push("First")}} style={styles.card} onLongPress={() => setVisible(true)}>
+                <Card elevation={5} onPress={() => {navigation.push("Feed", {feedLink:feed.link})}} style={styles.card} onLongPress={() => setVisible(true)}>
                     <Card.Title title={feed.title} subtitle={feed.link} 
                     right={() => <Badge>24</Badge>}/>
                     <Card.Content>
@@ -92,20 +90,13 @@ function FeedCard({ feed, navigation }) {
 }
 
 
-function Titlebar({ optionSetter }) {
-    return (
-        <Appbar.Header>
-            <Appbar.Content title="MobiRSS" />
-            <Appbar.Action icon="cog" onPress={() => { optionSetter(true) }} />
-        </Appbar.Header>
-    );
-}
-
-
-
 const styles = StyleSheet.create({
-    view: {
+    surface: {
         flex: 1,
+        height:'100%'
+    },
+    surface:{
+        height:'100%'
     },
     credit: {
         textAlign: 'center',

@@ -8,6 +8,9 @@ import CustomNavigationBar from './routes/CustomAppBar';
 import MainView from './routes/MainView';
 import { useState, useEffect } from 'react';
 import { getData } from "./modules/DataManager";
+import { Appbar } from 'react-native-paper';
+import Settings  from './routes/SettingsView';
+import {FeedView} from './routes/FeedView'
 
 const Stack = createNativeStackNavigator();
 
@@ -44,10 +47,13 @@ export default function App() {
        screenOptions={{
         header: (props) => <CustomNavigationBar {...props} />,
       }}>
-        <Stack.Screen name="Main" component={MainView}/>
-        <Stack.Screen name="First" component={RouteOne}/>
-        <Stack.Screen name="Second" component={RouteTwo}/>
-        <Stack.Screen name="Pushed" component={PushedRoute}/>
+        <Stack.Screen name="Main" component={MainView} options={{ title: 'MobiRSS'}}/>
+        <Stack.Screen name="Settings">
+          {props => <Settings {...props} isDark={isDark} setDark={setDark} />}
+        </Stack.Screen>
+        <Stack.Screen name="Feed" component={FeedView}/>
+          
+       
       </Stack.Navigator>
       <StatusBar style="auto" />
       </NavigationContainer>
@@ -70,25 +76,25 @@ const styles = StyleSheet.create({
 
 //Below are demo navs to get used to React-Nav
 
-function RouteOne({navigation}){
-  return(<View>
-    <Text>This is the first view</Text>
-    <Button onPress={() => navigation.navigate('Second')}>Navigate to second Page</Button>
-    <Button onPress={() => navigation.push('Pushed')}>Nav to Nav</Button>
-  </View>);
-}
+// function RouteOne({navigation}){
+//   return(<View>
+//     <Text>This is the first view</Text>
+//     <Button onPress={() => navigation.navigate('Second')}>Navigate to second Page</Button>
+//     <Button onPress={() => navigation.push('Pushed')}>Nav to Nav</Button>
+//   </View>);
+// }
 
-function RouteTwo({navigation}){
-  return(<View>
-    <Text>This is the 2nd view</Text>
-    <Button onPress={() => navigation.navigate('First')}>Navigate to first Page</Button>
-    <Button onPress={() => navigation.push('Pushed')}>Nav to Nav</Button>
-  </View>);
-}
+// function RouteTwo({navigation}){
+//   return(<View>
+//     <Text>This is the 2nd view</Text>
+//     <Button onPress={() => navigation.navigate('First')}>Navigate to first Page</Button>
+//     <Button onPress={() => navigation.push('Pushed')}>Nav to Nav</Button>
+//   </View>);
+// }
 
-function PushedRoute({navigation}){
-  return(<View>
-    <Button onPress={() => navigation.push('Pushed')}>Nav to Nav</Button>
-  </View>)
-}
+// function PushedRoute({navigation}){
+//   return(<View>
+//     <Button onPress={() => navigation.push('Pushed')}>Nav to Nav</Button>
+//   </View>)
+// }
 
