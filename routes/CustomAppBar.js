@@ -9,7 +9,7 @@ export default function CustomNavigationBar({ navigation, route, options, back }
       <Appbar.Header>
         {back ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
         <Appbar.Content title={title} />
-        {options.rightButton}
+        {options.rightBar && <Appbar.Action icon={options.rightBar.icon} onPress={options.rightBar.onClick}/>}
       </Appbar.Header>
     );
   }

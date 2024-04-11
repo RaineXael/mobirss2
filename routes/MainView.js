@@ -1,5 +1,5 @@
 //Main View where all the RSS feeds will be displayed
-import { Text, Card, Button, List, FAB, Appbar, Dialog, Badge, Menu } from "react-native-paper";
+import { Text, Card, Button, List, FAB, Appbar, ActivityIndicator, Badge, Menu } from "react-native-paper";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { FeedInputDialog } from "./FeedAddDialog";
 import { useState, useEffect } from "react";
@@ -7,6 +7,8 @@ import { getData, storeData } from "../modules/DataManager";
 
 export default function MainView({navigation}){
 
+    navigation.setOptions({rightBar:{icon:'cog', onClick:()=>{navigation.navigate('Settings')}}})
+    
     const [visible, setVisible] = useState(false); //for the feed input menu
     const saveFeeds = async () => {
         await storeData('saved-feeds',feedList)
@@ -47,7 +49,7 @@ export default function MainView({navigation}){
             <FeedInputDialog saveFeedFN={saveFeeds} feedList={feedList} visible={visible} setVisible={setVisible} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {feedJSX}
-
+                    <ActivityIndicator size={'large'}/>
                 {<Button onPress={()=>{navigation.push("First")}}>Test Nav</Button>}
 
             </ScrollView>
