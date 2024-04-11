@@ -1,5 +1,5 @@
 //Main View where all the RSS feeds will be displayed
-import { Text, Card, Button, List, FAB, Appbar, ActivityIndicator, Badge, Menu } from "react-native-paper";
+import { Text, Card, Button, Surface, FAB, Appbar, ActivityIndicator, Badge, Menu } from "react-native-paper";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { FeedInputDialog } from "./FeedAddDialog";
 import { useState, useEffect } from "react";
@@ -45,16 +45,13 @@ export default function MainView({navigation}){
 
 
     return (
-        <View style={styles.view}>
+        <Surface style={styles.surface}>
             <FeedInputDialog saveFeedFN={saveFeeds} feedList={feedList} visible={visible} setVisible={setVisible} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {feedJSX}
-                    <ActivityIndicator size={'large'}/>
-                {<Button onPress={()=>{navigation.push("First")}}>Test Nav</Button>}
-
             </ScrollView>
             <FAB icon="plus" size='large' style={styles.fab} onPress={() => setVisible(true)}>Add New Feed</FAB>
-        </View>
+        </Surface>
     );
 
 
@@ -105,8 +102,12 @@ function Titlebar({ optionSetter }) {
 
 
 const styles = StyleSheet.create({
-    view: {
+    surface: {
         flex: 1,
+        height:'100%'
+    },
+    surface:{
+        height:'100%'
     },
     credit: {
         textAlign: 'center',

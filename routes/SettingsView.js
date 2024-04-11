@@ -1,16 +1,14 @@
 //Settings Menu
-import {Appbar, Button, Checkbox, Portal, Dialog, Text, Divider} from 'react-native-paper';
+import {Surface, Button, Checkbox, Portal, Dialog, Text, Divider} from 'react-native-paper';
 import { storeData} from "../modules/DataManager";
 import { ScrollView, StyleSheet } from 'react-native';
 import {useState} from 'react';
-export default function Settings({ navigation }) {
+export default function Settings({ navigation, isDark, setDark }) {
 
-    //temp
-    const [isDark, setDark] = useState(false);
 
     return (
-        <>           
-            <ScrollView>
+        <View style={styles.surface}>           
+            <ScrollView style={styles.options}>
 
                 <DarkModeSetter isDark={isDark} setDark={setDark} />
 
@@ -19,7 +17,7 @@ export default function Settings({ navigation }) {
                 <ResetDataButton></ResetDataButton>
             </ScrollView>
             <Text style={styles.credit}>App by RaineXael</Text>
-        </>
+        </View>
 
     );
 }
@@ -81,18 +79,15 @@ function ShowNavOnFeedShower() {
     );
 }
 
-function Titlebar({ title, setter }) {
-    return (
-        <Appbar.Header>
-            <Appbar.BackAction onPress={() => { setter(false) }} />
-            <Appbar.Content title={title} />
-        </Appbar.Header>
-    );
-}
-
 
 const styles = StyleSheet.create({
 
+    surface:{
+        height:'100%'
+    },
+    options:{
+        'flex-grow':1
+    },
     credit: {
         textAlign: 'center',
         margin: 16
