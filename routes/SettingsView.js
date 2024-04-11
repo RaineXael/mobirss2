@@ -7,7 +7,7 @@ export default function Settings({ navigation, isDark, setDark }) {
 
 
     return (
-        <View style={styles.surface}>           
+        <Surface style={styles.surface}>           
             <ScrollView style={styles.options}>
 
                 <DarkModeSetter isDark={isDark} setDark={setDark} />
@@ -17,7 +17,7 @@ export default function Settings({ navigation, isDark, setDark }) {
                 <ResetDataButton></ResetDataButton>
             </ScrollView>
             <Text style={styles.credit}>App by RaineXael</Text>
-        </View>
+        </Surface>
 
     );
 }
