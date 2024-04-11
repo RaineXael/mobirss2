@@ -72,7 +72,7 @@ function FeedCard({ feed, navigation }) {
             anchor={
 
                 /*navigate to feed menu with item on the onpressc*/
-                <Card elevation={5} onPress={() => {navigation.push("First")}} style={styles.card} onLongPress={() => setVisible(true)}>
+                <Card elevation={5} onPress={() => {navigation.push("Feed", {feedLink:feed.link})}} style={styles.card} onLongPress={() => setVisible(true)}>
                     <Card.Title title={feed.title} subtitle={feed.link} 
                     right={() => <Badge>24</Badge>}/>
                     <Card.Content>
@@ -88,17 +88,6 @@ function FeedCard({ feed, navigation }) {
 
     );
 }
-
-
-function Titlebar({ optionSetter }) {
-    return (
-        <Appbar.Header>
-            <Appbar.Content title="MobiRSS" />
-            <Appbar.Action icon="cog" onPress={() => { optionSetter(true) }} />
-        </Appbar.Header>
-    );
-}
-
 
 
 const styles = StyleSheet.create({

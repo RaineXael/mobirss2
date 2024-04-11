@@ -9,7 +9,8 @@ import MainView from './routes/MainView';
 import { useState, useEffect } from 'react';
 import { getData } from "./modules/DataManager";
 import { Appbar } from 'react-native-paper';
-import  Settings  from './routes/SettingsView';
+import Settings  from './routes/SettingsView';
+import {FeedView} from './routes/FeedView'
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,9 @@ export default function App() {
         <Stack.Screen name="Settings">
           {props => <Settings {...props} isDark={isDark} setDark={setDark} />}
         </Stack.Screen>
+        <Stack.Screen name="Feed" component={FeedView}/>
+          
+       
       </Stack.Navigator>
       <StatusBar style="auto" />
       </NavigationContainer>
