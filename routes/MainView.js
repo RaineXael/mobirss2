@@ -48,8 +48,7 @@ export default function MainView({navigation}){
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {feedJSX}
 
-                
-                <Button onPress={()=>{navigation.push("First")}}>Test Nav</Button>
+                {<Button onPress={()=>{navigation.push("First")}}>Test Nav</Button>}
 
             </ScrollView>
             <FAB icon="plus" size='large' style={styles.fab} onPress={() => setVisible(true)}>Add New Feed</FAB>

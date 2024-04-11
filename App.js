@@ -8,6 +8,8 @@ import CustomNavigationBar from './routes/CustomAppBar';
 import MainView from './routes/MainView';
 import { useState, useEffect } from 'react';
 import { getData } from "./modules/DataManager";
+import { Appbar } from 'react-native-paper';
+import  Settings  from './routes/SettingsView';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +46,8 @@ export default function App() {
        screenOptions={{
         header: (props) => <CustomNavigationBar {...props} />,
       }}>
-        <Stack.Screen name="Main" component={MainView}/>
+        <Stack.Screen name="Main" component={MainView} options={{ title: 'MobiRSS', rightButton:<Appbar.Action icon="cog" onPress={() => {navigation.navigate('Settings')}} />}}/>
+        <Stack.Screen name="Settings" component={Settings}/>
         <Stack.Screen name="First" component={RouteOne}/>
         <Stack.Screen name="Second" component={RouteTwo}/>
         <Stack.Screen name="Pushed" component={PushedRoute}/>
