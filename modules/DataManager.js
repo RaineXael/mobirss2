@@ -26,7 +26,7 @@ export async function getData(key) {
 
 /**
  * Helper function to store a list of "item" (articles) to 
- * disk in a specific format
+ * disk in a specific format - feedURL + article link
  */
 export async function storeArticleList(baseURL, articleList) {
   articleList.map(article => {

@@ -3,12 +3,11 @@
 import {Button,Text, Appbar, List, Portal, Surface,Modal, Menu, Divider} from 'react-native-paper';
 import {View, ScrollView, Linking, RefreshControl } from 'react-native';
 import {useState, useCallback} from 'react';
-import { WebView } from 'react-native-webview';
-import { fetchFeed } from '../modules/FeedFetcher';
-function ArticleItem({item, setter}){
+
+function ArticleItem({item, navigation, baseURL}){
   return(<>
     <List.Item key={item.title} title={item.title}
-               onPress={() => {setter(item)}}></List.Item>
+               onPress={() => {navigation.push('Article', {URL:baseURL+item.link})}}></List.Item>
     <Divider/>
   </>);
 }
@@ -38,7 +37,7 @@ export function FeedView({navigation, options, route}){
   const [currentArticle, setCurrentArticle] = useState(null); //REMOVE, a leftover from old rendering method
   const itemJSX = feed.map(elem => {
     //return <Text>{JSON.stringify(elem)}</Text>
-    return <ArticleItem item={elem} navigation={navigation}></ArticleItem>
+    return <ArticleItem item={elem} navigation={navigation} baseURL={route.params.baseURL}></ArticleItem>
   })
 
   const [refreshing, setRefreshing] = useState(false);
@@ -76,33 +75,5 @@ export function FeedView({navigation, options, route}){
       </View>
   );
 
-}
-
-function ArticleWebView({article, setter}){
-  const htmlString = article.description
-
-  const handleShouldStartLoad = (event) => {
-    // Check if the link is external
-    if (event.url.startsWith('http://') || event.url.startsWith('https://')) {
-      // Open in the device's default browser
-      Linking.openURL(event.url);
-      return false; // Stop the WebView from navigating
-    }
-
-    return true; // Allow the WebView to navigate for other URLs
-  };
-
-  return(
-      <Portal>
-        <Titlebar title={article.title} setter={() => {setter(null)}} url={article.link}></Titlebar>
-        <WebView
-            originWhitelist={['*']}
-            source={{ html: htmlString}}
-            onShouldStartLoadWithRequest={handleShouldStartLoad}>
-        </WebView>
-
-
-      </Portal>
-  );
 }
 
