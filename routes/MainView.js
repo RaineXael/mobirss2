@@ -7,7 +7,9 @@ import { getData, storeData } from "../modules/DataManager";
 
 export default function MainView({navigation}){
 
-    navigation.setOptions({rightBar:{icon:'cog', onClick:()=>{navigation.navigate('Settings')}}})
+    useEffect(()=>{
+        navigation.setOptions({rightBar:{icon:'cog', onClick:()=>{navigation.navigate('Settings')}}})
+    },[])
     
     const [visible, setVisible] = useState(false); //for the feed input menu
     const saveFeeds = async () => {

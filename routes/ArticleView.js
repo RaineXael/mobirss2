@@ -33,11 +33,10 @@ export function ArticleWebView({ navigation, route }) {
             console.error(e);
             //navigation.pop;
         })
-        
+        navigation.setOptions({ title: route.params.title, rightBar: { icon: 'web', onClick: () => { } } })
         
     },[]);
-    //this is causing a problem but we kinda need the navbar and titleupdate????
-    navigation.setOptions({ title: route.params.title, rightBar: { icon: 'web', onClick: () => { } } })
+    
 return (
     <Surface>
         {article === null ? <ActivityIndicator /> :

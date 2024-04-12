@@ -32,13 +32,13 @@ function ArticleItem({item, navigation, baseURL}){
 
 export function FeedView({navigation, options, route}){
   console.log(route.params.title);
-  navigation.setOptions({title:route.params.title,rightBar:{icon:'web', onClick:()=>{}}})
+  
   feedURL = route.params.baseURL+'feed';
   const [feed, setFeed] = useState([]);
   const [currentArticle, setCurrentArticle] = useState(null); //REMOVE, a leftover from old rendering method
   const itemJSX = feed.map(elem => {
     //return <Text>{JSON.stringify(elem)}</Text>
-    return <ArticleItem item={elem} navigation={navigation} baseURL={route.params.baseURL}></ArticleItem>
+    return <ArticleItem key={elem.link} item={elem} navigation={navigation} baseURL={route.params.baseURL}></ArticleItem>
   })
 
   useEffect(() => {
@@ -47,6 +47,7 @@ export function FeedView({navigation, options, route}){
      
       if(data !== undefined){
         setFeed(JSON.parse(data))
+        navigation.setOptions({title:route.params.title,rightBar:{icon:'web', onClick:()=>{}}})
       }
      
       
