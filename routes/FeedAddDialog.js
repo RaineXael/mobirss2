@@ -2,8 +2,7 @@ import {  Button,  Dialog, Portal, TextInput, ActivityIndicator, HelperText } fr
 import { fetchFeed, processFeed } from '../modules/FeedFetcher'
 import {useEffect, useState} from 'react'
 import { StyleSheet } from "react-native";
-import { storeArticleList } from "../modules/DataManager";
-
+import { storeArticleList, storeData } from "../modules/DataManager";
 
 export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
  
@@ -17,6 +16,7 @@ export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
   //and appends the needed data into the global feed object
   async function SaveFeedInitial(processedJSON){
     
+    storeData(processedJSON.feed.feedLink+'feed', processedJSON.articleList)
     storeArticleList(processedJSON.feed.feedLink,processedJSON.articles)
     //Push article to statevar (up)
     feedList.push(processedJSON.feed);
