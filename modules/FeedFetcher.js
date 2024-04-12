@@ -44,13 +44,13 @@ export function processFeed(feedJSON){
       link: feedJSON.link,
       description:feedJSON.description,
       feedLink: feedJSON.feedLink,
-      lastBuildDate: feedJSON.lastBuildDate,
-      item:articleData
+      lastBuildDate: feedJSON.lastBuildDate, 
     }
   
 
   return {
     feed: feedData,
+    articleList:articleData,
     articles: feedJSON.item
   }
   
