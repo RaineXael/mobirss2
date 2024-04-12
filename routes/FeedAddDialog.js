@@ -1,7 +1,8 @@
 import {  Button,  Dialog, Portal, TextInput, ActivityIndicator, HelperText } from "react-native-paper";
-import { fetchFeed } from '../modules/FeedFetcher'
+import { fetchFeed, processFeed } from '../modules/FeedFetcher'
 import {useEffect, useState} from 'react'
 import { StyleSheet } from "react-native";
+import { storeArticleList } from "../modules/DataManager";
 
 
 export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
@@ -12,18 +13,30 @@ export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
   const [error, setError] = useState('');
  
 
-  const fetchURL = async () => {
-    //should fetch from URL, for now just return placeholder text
+  //Saves the feed data to disk (that was originally read)
+  //and appends the needed data into the global feed object
+  async function SaveFeedInitial(processedJSON){
     
+    storeArticleList(processedJSON.feed.feedLink,processedJSON.articles)
+    //Push article to statevar (up)
+    feedList.push(processedJSON.feed);
+    //Save that statevar to disk
+    await saveFeedFN();
+  }
+
+
+  const fetchURL = async () => {
+    //should fetch from URL
     setLoading(true);
     try{
-      const foundFeed = await fetchFeed(text);
+      let foundFeed = await fetchFeed(text);
+      console.log(foundFeed.feedLink);
       if(foundFeed !== null){
-        foundFeed.rss.channel.feedLink = text;
-        console.log();
+        foundFeed.feedLink = text;
+        
         //add feed to list & save to cache
-        feedList.push(foundFeed.rss.channel);
-        await saveFeedFN();
+        const processedFeed = processFeed(foundFeed)
+        await SaveFeedInitial(processedFeed);
         hideDialog();
       }
       else
