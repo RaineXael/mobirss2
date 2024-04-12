@@ -72,7 +72,7 @@ function FeedCard({ feed, navigation }) {
             anchor={
 
                 /*navigate to feed menu with item on the onpressc*/
-                <Card elevation={5} onPress={() => {navigation.push("Feed", {feedLink:feed.link})}} style={styles.card} onLongPress={() => setVisible(true)}>
+                <Card elevation={5} onPress={() => {navigation.push("Feed", {title:feed.title,feeds:feed.item})}} style={styles.card} onLongPress={() => setVisible(true)}>
                     <Card.Title title={feed.title} subtitle={feed.link} 
                     right={() => <Badge>24</Badge>}/>
                     <Card.Content>

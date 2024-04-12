@@ -1,6 +1,6 @@
 //FeedView where each feed's articles will be displayed
 
-import {Button,Text, Appbar, List, Portal, Modal, Menu, Divider} from 'react-native-paper';
+import {Button,Text, Appbar, List, Portal, Surface,Modal, Menu, Divider} from 'react-native-paper';
 import {View, ScrollView, Linking, RefreshControl } from 'react-native';
 import {useState, useCallback} from 'react';
 import { WebView } from 'react-native-webview';
@@ -13,60 +13,66 @@ function ArticleItem({item, setter}){
   </>);
 }
 
-function Titlebar({title, setter, url}){
-  return(
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => {setter(null)}} />
-        <Appbar.Content title={title} />
-        <Appbar.Action icon="web" onPress={() => {
-          //should open the main page when in the feed list,
-          //opens this article on a certain article view
-          if(url !== undefined && url !== null) {
-            Linking.openURL(url);
-          }
-        }} />
+// function Titlebar({title, setter, url}){
+//   return(
+//       <Appbar.Header>
+//         <Appbar.BackAction onPress={() => {setter(null)}} />
+//         <Appbar.Content title={title} />
+//         <Appbar.Action icon="web" onPress={() => {
+//           //should open the main page when in the feed list,
+//           //opens this article on a certain article view
+//           if(url !== undefined && url !== null) {
+//             Linking.openURL(url);
+//           }
+//         }} />
 
-      </Appbar.Header>
-  );
-}
+//       </Appbar.Header>
+//   );
+// }
 
-export function FeedView({navigation, route}){
-  console.log(route.params)
-    /* {feed, setter}*/
-  const [currentArticle, setCurrentArticle] = useState(null);
-  const itemJSX = feed.item.map(elem => {
+export function FeedView({navigation, options, route}){
+  console.log(route.params.title);
+  navigation.setOptions({title:route.params.title,rightBar:{icon:'web', onClick:()=>{}}})
+  feed = route.params.feeds;
+  
+  const [currentArticle, setCurrentArticle] = useState(null); //REMOVE, a leftover from old rendering method
+  const itemJSX = feed.map(elem => {
     //return <Text>{JSON.stringify(elem)}</Text>
-    return <ArticleItem item={elem} setter={()=>{/*Navigate (push) to the article itself*/}}></ArticleItem>
+    return <ArticleItem item={elem} navigation={navigation}></ArticleItem>
   })
 
   const [refreshing, setRefreshing] = useState(false);
 
   async function refresh(){
-    console.log(feed.feedLink);
-    const newFeed = await fetchFeed(feed.feedLink);
+    
+    //What was he cooking here
+    
+    // const newFeed = await fetchFeed(feed.feedLink);
 
-    console.log(newFeed.rss.channel.item);
-    const guids = feed.item.map(elem => elem.guid);
-    console.log(guids)
-    //compare the two and append new titles
-    newFeed.rss.channel.item.forEach(newFeed => {
-      console.log(newFeed.guid)
+    // console.log(newFeed.rss.channel.item);
+    // const guids = feed.item.map(elem => elem.guid);
+    // console.log(guids)
+    // //compare the two and append new titles
+    // newFeed.rss.channel.item.forEach(newFeed => {
+    //   console.log(newFeed.guid)
 
-    });
+    // });
     setRefreshing(false);
   }
 
   return(
       <View>
-        <Titlebar title={feed.title} setter={setter} url={feed.link}></Titlebar>
-        <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-            }>
-          {currentArticle === null && (itemJSX)}
-          {currentArticle !== null && (<ArticleWebView article={currentArticle}
-                                                       setter={setCurrentArticle}></ArticleWebView>)}
-        </ScrollView>
+        <Surface>
+          {/*<Titlebar title={feed.title} setter={setter} url={feed.link}></Titlebar>*/}
+          <ScrollView
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+              }>
+            {currentArticle === null && (itemJSX)}
+            {currentArticle !== null && (<ArticleWebView article={currentArticle}
+                                                        setter={setCurrentArticle}></ArticleWebView>)}
+          </ScrollView>
+        </Surface>
       </View>
   );
 

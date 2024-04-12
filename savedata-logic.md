@@ -38,3 +38,11 @@ Doing this should be easy too. We have a new parameter that we pass through, whi
 This is where it gets interesting. We would load the [SiteURL|ArticleURL] key to get the article information. This includes HTML information for the webview as well as a URL to go to the external site. 
 
 Yeah let's implement this 🔥
+
+## Notes
+Nevermind, Tamberlane still takes forever to load.
+I'd have to segment it even more so I can at least add a loading bar
+
+But at the same time most feeds don't just dump their entire comic base (afaik)
+
+YEAH it would be best if we separate this more. Maybe even pagenate it using key values? 🤔
