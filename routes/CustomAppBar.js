@@ -1,5 +1,6 @@
 import { Appbar } from 'react-native-paper';
 import { getHeaderTitle } from '@react-navigation/elements';
+import { StyleSheet } from 'react-native';
 
 
 export default function CustomNavigationBar({ navigation, route, options, back }) {
