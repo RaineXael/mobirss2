@@ -1,13 +1,12 @@
 //The webview where each article will be viewed
 import { WebView } from 'react-native-webview';
-import { Portal, Surface, ActivityIndicator, Appbar } from 'react-native-paper';
-import { Linking } from 'react-native';
+import { Portal, Surface, ActivityIndicator, Appbar, Button } from 'react-native-paper';
+import { Linking, StyleSheet } from 'react-native';
 import { getData } from '../modules/DataManager';
 import { useEffect, useState } from 'react';
 
 export function ArticleWebView({ navigation, route }) {
 
-    
     const [article, setArticle] = useState(null);
 
     let htmlString = ''
@@ -47,27 +46,45 @@ return (
                     source={{ html: htmlString }}
                     onShouldStartLoadWithRequest={handleShouldStartLoad}>
                 </WebView>
-
+                <BottomNav/>
 
             </Portal>
         }
     </Surface>
 );
 }
-
+function BottomNav(){
+    //Buttons to go to the next / last article
+    return(
+        <Surface style={styles.bottomNav}>
+            <Button icon='arrow-left' onPress={() => {alert('a')}}>Previous</Button>
+            <Button icon='arrow-right' onPress={() => {alert('a')}}>Next</Button>
+        </Surface>
+    );
+}
 function Titlebar({title, navigation, url}){
     return(
         <Appbar.Header>
           <Appbar.BackAction onPress={() => {navigation.pop()}} />
           <Appbar.Content title={title} />
+          
+          
           <Appbar.Action icon="web" onPress={() => {
             //should open the main page when in the feed list,
             //opens this article on a certain article view
             if(url !== undefined && url !== null) {
               Linking.openURL(url);
             }
-          }} />
-  
+          }} />   
+        
         </Appbar.Header>
     );
   }
+
+  const styles = StyleSheet.create({
+    bottomNav: {
+        display:'flex',
+      'flexDirection': 'row',
+      'justifyContent': 'space-evenly'
+    },
+  });
