@@ -8,11 +8,14 @@ const parser = new XMLParser();
  */
 export async function fetchFeed(link){
  
+  console.log('Attepting to fetch feed ' + link)
   try{
     const xmlResp = await fetch(link);
+    console.log(xmlResp.resp)
+    console.log('Feed fetched, parsing XML')
     const xmlString = await xmlResp.text();
     //validate rss
-    
+    console.log('XML parsed')
     return parser.parse(xmlString).rss.channel;
   }
   catch(e){

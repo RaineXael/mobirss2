@@ -43,15 +43,14 @@ export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
       {
         console.log('caught')
         setError('Feed not found.')
-      }
-      setLoading(false);
+      }     
     }
     catch (error){
-      setError('Feed not found: ' + error)
-      setLoading(false);
+      setError('Feed not found: ' + error)     
     }
-    
-    
+    finally{
+      setLoading(false);
+    } 
   }
 
 

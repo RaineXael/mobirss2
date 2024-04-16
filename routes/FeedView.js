@@ -1,7 +1,7 @@
 //FeedView where each feed's articles will be displayed
 
 import {ActivityIndicator, List, Surface, Divider} from 'react-native-paper';
-import {View, ScrollView, RefreshControl, StyleSheet } from 'react-native';
+import {View, ScrollView, RefreshControl, StyleSheet, Linking } from 'react-native';
 import {useState, useEffect} from 'react';
 import {getData} from '../modules/DataManager';
 
@@ -22,7 +22,7 @@ function ArticleItem({item, navigation, baseURL}){
 //           //should open the main page when in the feed list,
 //           //opens this article on a certain article view
 //           if(url !== undefined && url !== null) {
-//             Linking.openURL(url);
+//             
 //           }
 //         }} />
 
@@ -31,8 +31,6 @@ function ArticleItem({item, navigation, baseURL}){
 // }
 
 export function FeedView({navigation, options, route}){
-  console.log(route.params.title);
-  
   feedURL = route.params.baseURL+'feed';
   const [feed, setFeed] = useState([]);
   const [currentArticle, setCurrentArticle] = useState(null); //REMOVE, a leftover from old rendering method
@@ -47,7 +45,7 @@ export function FeedView({navigation, options, route}){
      
       if(data !== undefined){
         setFeed(JSON.parse(data))
-        navigation.setOptions({title:route.params.title,rightBar:{icon:'web', onClick:()=>{}}})
+        navigation.setOptions({title:route.params.title,rightBar:{icon:'web', onClick:()=>{Linking.openURL(route.params.pageURL);}}})
       }
      
       
