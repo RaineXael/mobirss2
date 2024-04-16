@@ -32,7 +32,7 @@ export function ArticleWebView({ navigation, route }) {
             console.error(e);
             //navigation.pop;
         })
-        navigation.setOptions({ title: route.params.title, rightBar: { icon: 'web', onClick: () => { } } })
+        navigation.setOptions({ title: route.params.title, rightBar: [{ icon: 'web', onClick: () => { } }] })
         
     },[]);
     

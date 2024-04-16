@@ -8,7 +8,7 @@ import { getData, storeData } from "../modules/DataManager";
 export default function MainView({navigation}){
 
     useEffect(()=>{
-        navigation.setOptions({rightBar:{icon:'cog', onClick:()=>{navigation.navigate('Settings')}}})
+        navigation.setOptions({rightBar:[{icon:'cog', onClick:()=>{navigation.navigate('Settings')}}]})
     },[])
     
     const [visible, setVisible] = useState(false); //for the feed input menu
@@ -83,8 +83,9 @@ function FeedCard({ feed, navigation }) {
 
 
             }>
-            <Menu.Item onPress={() => { }} title="Edit" />
-            <Menu.Item onPress={() => { }} title="Delete" />
+            <Menu.Item onPress={() => {closeMenu(); }} title="Mark as Read" />
+            <Menu.Item onPress={() => {closeMenu(); }} title="Edit" />
+            <Menu.Item onPress={() => {closeMenu(); }} title="Delete" />
         </Menu>
 
     );
