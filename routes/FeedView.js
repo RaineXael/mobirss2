@@ -76,9 +76,11 @@ export function FeedView({ navigation, options, route }) {
     setRefreshing(false);
   }
 
+  const [filterType, setFilterType] = useState(3);
+
   return (
     <View>
-      <FilterDialog isVisible={filterMenu} onDismiss={()=>{setFilterMenu(false)}}/>
+      <FilterDialog isVisible={filterMenu} onDismiss={()=>{setFilterMenu(false)}} filterType={filterType} setFilterType={setFilterType}/>
       <Surface style={styles.surface}>
         {/*<Titlebar title={feed.title} setter={setter} url={feed.link}></Titlebar>*/}
         {feed.length === 0 ? <ActivityIndicator /> :
@@ -111,24 +113,41 @@ export function FeedView({ navigation, options, route }) {
 
 }
 
-function FilterDialog({isVisible, onDismiss}){
+function FilterDialog({isVisible, onDismiss, filterType,setFilterType}){
   
-  return(
+  function SetFilter(type){
+    //from the order of the buttons: 0,1,2,3
+    setFilterType(type)
+    //onDismiss();
+  }
+  const buttons = [
+    { id: 0, label: 'By Title (Ascending)' },
+    { id: 1, label: 'By Title (Descending)' },
+    { id: 2, label: 'By Date (Newer First)' },
+    { id: 3, label: 'By Date (Oldest First)' },
+  ];
+
+  return (
     <Portal>
       <Dialog visible={isVisible} onDismiss={onDismiss}>
-      <Dialog.Title>Article Filters</Dialog.Title>
-            <Dialog.Content>
-              <Button onPress={onDismiss}>By Title (Ascending)</Button>
-              <Button onPress={onDismiss}>By Title (Descending)</Button>
-              <Button onPress={onDismiss}>By Date (Newer First)</Button>
-              <Button onPress={onDismiss}>By Date (Oldest First)</Button>
-              
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={onDismiss}>Reset</Button>             
-            </Dialog.Actions>
+        <Dialog.Title>Article Filters</Dialog.Title>
+        <Dialog.Content>
+          {buttons.map(button => (
+            <Button
+              key={button.id}
+              onPress={() => SetFilter(button.id)} // Set active filter based on button id
+              mode={filterType === button.id ? 'outlined' : 'text'} // Set type based on condition
+            >
+              {button.label}
+            </Button>
+          ))}
 
-          </Dialog>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={onDismiss}>Close</Button>
+        </Dialog.Actions>
+
+      </Dialog>
     </Portal>
   );
 }

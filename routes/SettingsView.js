@@ -20,10 +20,10 @@ export default function Settings({ navigation, isDark, setDark }) {
             </ScrollView>
             <Surface elevation='1'>
                 <Text style={styles.credit}>App by RaineXael</Text>
-                <Surface elevation='0' style={styles.creditLinks}>
+                {/* <Surface elevation='0' style={styles.creditLinks}>
                     <IconButton icon='web' onPress={()=>{Linking.openURL(siteURL)}}></IconButton>
                     <IconButton icon='github' onPress={()=>{Linking.openURL(repoURL)}}></IconButton>
-                </Surface>
+                </Surface> */}
             </Surface>
         </Surface>
 
