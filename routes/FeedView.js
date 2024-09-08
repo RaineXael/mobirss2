@@ -63,7 +63,7 @@ export function FeedView({ navigation, options, route }) {
 
   const [searchFilterText,setSearchFilterText] = useState("");
 
-  const [filterType, setFilterType] = useState(3);
+  const [filterType, setFilterType] = useState(2);
 
   
 

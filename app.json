@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobirss2",
-    "slug": "mobirss2",
+    "name": "MobiRSS",
+    "slug": "MobiRSS",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#df7126"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true
     },
@@ -22,7 +19,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.rainexael.mobirss2"
+      "package": "com.rainexael.mobirss"
     },
     "web": {
       "favicon": "./assets/favicon.png"
