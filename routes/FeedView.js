@@ -13,6 +13,47 @@ function ArticleItem({ item, navigation, baseURL }) {
   </>);
 }
 
+const filterTypes =[
+  //Title Asc
+  (a, b) => {
+    if (a.title > b.title) {
+      return 1;
+    }
+    if (a.title < b.title) {
+      return -1;
+    }
+    return 0;
+  },
+  //Title Desc
+  (a, b) => {
+    if (a.title > b.title) {
+      return -1;
+    }
+    if (a.title < b.title) {
+      return 1;
+    }
+    return 0;
+  },
+  (a, b) => {
+    if (Date.parse(a.pubDate) > Date.parse(b.pubDate)) {
+      return -1;
+    }
+    if (Date.parse(a.pubDate) < Date.parse(b.pubDate)) {
+      return 1;
+    }
+    return 0;
+  },
+  (a, b) => {
+    if (Date.parse(a.pubDate) > Date.parse(b.pubDate)) {
+      return 1;
+    }
+    if (Date.parse(a.pubDate) < Date.parse(b.pubDate)) {
+      return -1;
+    }
+    return 0;
+  }
+]
+
 export function FeedView({ navigation, options, route }) {
   feedURL = route.params.baseURL + 'feed';
   const [feed, setFeed] = useState([]);
@@ -22,6 +63,10 @@ export function FeedView({ navigation, options, route }) {
 
   const [searchFilterText,setSearchFilterText] = useState("");
 
+  const [filterType, setFilterType] = useState(3);
+
+  
+
   //Mapping feeds with search
   let searchedFeeds = feed;
   if (searchFilterText != ""){
@@ -30,6 +75,7 @@ export function FeedView({ navigation, options, route }) {
       elem.title.includes(searchFilterText)
     )
   }
+  searchedFeeds = searchedFeeds.sort(filterTypes[filterType])
 
   const itemJSX = searchedFeeds.map(elem => {
     //return <Text>{JSON.stringify(elem)}</Text>
@@ -76,7 +122,7 @@ export function FeedView({ navigation, options, route }) {
     setRefreshing(false);
   }
 
-  const [filterType, setFilterType] = useState(3);
+  
 
   return (
     <View>
