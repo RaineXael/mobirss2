@@ -2,7 +2,7 @@
   "expo": {
     "name": "MobiRSS",
     "slug": "MobiRSS",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -26,7 +26,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "0f7d53e3-a3e6-456d-af2f-13f693387224"
+        "projectId": "ff378ca6-cfa1-413a-b35f-54409f8082e1"
       }
     }
   }
