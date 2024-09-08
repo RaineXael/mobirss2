@@ -20,7 +20,18 @@ export function FeedView({ navigation, options, route }) {
 
   const [filterMenu, setFilterMenu] = useState(false);
 
-  const itemJSX = feed.map(elem => {
+  const [searchFilterText,setSearchFilterText] = useState("");
+
+  //Mapping feeds with search
+  let searchedFeeds = feed;
+  if (searchFilterText != ""){
+    searchedFeeds = feed.filter(elem=>
+      //Search criteria goes here
+      elem.title.includes(searchFilterText)
+    )
+  }
+
+  const itemJSX = searchedFeeds.map(elem => {
     //return <Text>{JSON.stringify(elem)}</Text>
     return <ArticleItem key={elem.link} item={elem} navigation={navigation} baseURL={route.params.baseURL}></ArticleItem>
   })
@@ -80,8 +91,10 @@ export function FeedView({ navigation, options, route }) {
             }>
             <Surface style={styles.searchbarContainer}>
               <Searchbar style={styles.searchbar}
+              value={searchFilterText}
+              onChangeText={setSearchFilterText}
               traileringIcon='close'
-              onTraileringIconPress={()=>alert('searched')}
+              onTraileringIconPress={()=>setSearchFilterText("")}
               loading={false}></Searchbar>
               
             </Surface>
@@ -92,11 +105,6 @@ export function FeedView({ navigation, options, route }) {
           </ScrollView>
           </View>
         }
-        
-       
-          
-      
-
       </Surface>
     </View>
   );
@@ -110,12 +118,10 @@ function FilterDialog({isVisible, onDismiss}){
       <Dialog visible={isVisible} onDismiss={onDismiss}>
       <Dialog.Title>Article Filters</Dialog.Title>
             <Dialog.Content>
-              <Button onPress={onDismiss}>By Title (Asc)</Button>
-              <Button onPress={onDismiss}>By Title (Desc)</Button>
-              <Divider></Divider>
-              <Button onPress={onDismiss}>By Date (Asc)</Button>
-              <Button onPress={onDismiss}>By Date (Desc)</Button>
-             
+              <Button onPress={onDismiss}>By Title (Ascending)</Button>
+              <Button onPress={onDismiss}>By Title (Descending)</Button>
+              <Button onPress={onDismiss}>By Date (Newer First)</Button>
+              <Button onPress={onDismiss}>By Date (Oldest First)</Button>
               
             </Dialog.Content>
             <Dialog.Actions>
