@@ -12,6 +12,7 @@ import { Appbar } from 'react-native-paper';
 import Settings  from './routes/SettingsView';
 import {FeedView} from './routes/FeedView'
 import {ArticleWebView} from './routes/ArticleView'
+import { KeyViewer } from './routes/DebugStorageViewer';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,7 +55,7 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Feed" component={FeedView}/>
         <Stack.Screen name="Article" component={ArticleWebView}/>
-       
+        <Stack.Screen name="DebugStorageViewer" component={KeyViewer}/>
       </Stack.Navigator>
       <StatusBar style="auto" />
       </NavigationContainer>

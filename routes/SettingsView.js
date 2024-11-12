@@ -13,12 +13,13 @@ export default function Settings({ navigation, isDark, setDark }) {
             <ScrollView style={styles.options}>
 
                 <DarkModeSetter isDark={isDark} setDark={setDark} />
-
+                
                 <ShowNavOnFeedShower />
                 <Divider />
                 <ResetDataButton></ResetDataButton>
             </ScrollView>
             <Surface elevation='1'>
+                <Button onPress={()=>{navigation.navigate("DebugStorageViewer")}}>View Storage (DEBUG)</Button>
                 <Text style={styles.credit}>App by RaineXael</Text>
                 {/* <Surface elevation='0' style={styles.creditLinks}>
                     <IconButton icon='web' onPress={()=>{Linking.openURL(siteURL)}}></IconButton>
