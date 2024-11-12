@@ -4,6 +4,7 @@ import { ActivityIndicator, List, Surface, Divider, Dialog, Portal, Button, Sear
 import { View, ScrollView, RefreshControl, StyleSheet, Linking } from 'react-native';
 import { useState, useEffect } from 'react';
 import { getData } from '../modules/DataManager';
+import { refreshFeed } from '../modules/FeedFetcher';
 
 function ArticleItem({ item, navigation, baseURL }) {
   return (<>
@@ -106,20 +107,13 @@ export function FeedView({ navigation, options, route }) {
   const [refreshing, setRefreshing] = useState(false);
 
   async function refresh() {
-
-    //What was he cooking here
-
-    // const newFeed = await fetchFeed(feed.feedLink);
-
-    // console.log(newFeed.rss.channel.item);
-    // const guids = feed.item.map(elem => elem.guid);
-    // console.log(guids)
-    // //compare the two and append new titles
-    // newFeed.rss.channel.item.forEach(newFeed => {
-    //   console.log(newFeed.guid)
-
-    // });
-    setRefreshing(false);
+    try {
+      const newArticles = await refreshFeed(feed, route.params.baseURL);
+      //if newArticles()
+    } catch {
+    } finally {
+      setRefreshing(false);
+    }
   }
 
   

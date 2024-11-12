@@ -21,10 +21,10 @@ export default function Settings({ navigation, isDark, setDark }) {
             <Surface elevation='1'>
                 <Button onPress={()=>{navigation.navigate("DebugStorageViewer")}}>View Storage (DEBUG)</Button>
                 <Text style={styles.credit}>App by RaineXael</Text>
-                {/* <Surface elevation='0' style={styles.creditLinks}>
+                <Surface elevation='0' style={styles.creditLinks}>
                     <IconButton icon='web' onPress={()=>{Linking.openURL(siteURL)}}></IconButton>
                     <IconButton icon='github' onPress={()=>{Linking.openURL(repoURL)}}></IconButton>
-                </Surface> */}
+                </Surface> 
             </Surface>
         </Surface>
 

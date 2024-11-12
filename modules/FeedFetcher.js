@@ -1,3 +1,5 @@
+import { storeData } from "./DataManager";
+
 const { XMLParser} = require("fast-xml-parser");
 const parser = new XMLParser();
 
@@ -39,7 +41,8 @@ export function processFeed(feedJSON){
     return{
       title:art.title,
       link:art.link,
-      pubDate:art.pubDate
+      pubDate:art.pubDate,
+      unread:true
     }
   })
   const feedData = {
@@ -59,3 +62,42 @@ export function processFeed(feedJSON){
   
 }
 
+
+export async function refreshFeed(originalJSON, feedURL){
+  //Compare Original feed with one newly fetched
+  //Compare feed titles (and possibly dates and link?)
+  //If any new entries, return a new json string with the new feeds added.
+  //(Save will be handled in the refresh fns in the pages)
+  let newArticles = false
+  const additionsToArticleList = []
+
+  const feedString = await fetchFeed(feedURL)
+  const processedFeed = await processFeed(feedString)
+  // console.log(processedFeed.articleList)
+  const feedData = processedFeed.articles
+  const feedArticleList = processedFeed.articleList
+  //Above is the article list. Get any new entries.
+  const articleTitles = originalJSON.map((article)=>article.title)
+  console.log(feedData)
+  //Comparison
+  feedData.forEach(async element => {
+    if (!articleTitles.includes(element.title)){
+      //If article title not found in original, take it and add it.
+      //Example key: https://sdamned.com/comic/rsshttps://www.sdamned.com/comic/1130 <-- rss url + article link
+      await storeData(feedURL+element.link, element);
+      additionsToArticleList.push(feedArticleList.find(article => article.title == element.title));
+      console.log(element.title + " added!")
+      newArticles = true
+    }
+  });
+
+  if (additionsToArticleList.length > 0){
+    originalJSON.concat(additionsToArticleList)
+    await storeData(feedURL+'feed', originalJSON);
+    console.log(element.title + " added!")
+  }
+  return newArticles;
+  //returns true or false based on if there is any new articles or not
+}
+
+//Saving feeds to localstorage should be here tbh
