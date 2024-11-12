@@ -9,7 +9,11 @@ export function KeyViewer(){
     
 
     useEffect(() =>{
-        setResult(getData(val))
+        getData(val).then(data =>{
+            setResult(data);
+        }).catch(e =>{
+            console.error(e);
+        });
     },[val])
 
 
