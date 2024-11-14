@@ -13,12 +13,12 @@ export async function fetchFeed(link){
   console.log('Attepting to fetch feed ' + link)
   try{
     const xmlResp = await fetch(link);
-    console.log(xmlResp.resp)
-    console.log('Feed fetched, parsing XML')
+    console.log(xmlResp.resp);
+    console.log('Feed fetched, parsing XML');
     const xmlString = await xmlResp.text();
     //validate rss
-    console.log('XML parsed')
-    return parser.parse(xmlString).rss.channel;
+    console.log('XML parsed');
+    return parseXML(xmlString);
   }
   catch(e){
     console.error(e)
@@ -26,6 +26,12 @@ export async function fetchFeed(link){
   }
   
 };
+
+
+export function parseXML(xmlString){
+  return parser.parse(xmlString).rss.channel;
+}
+
 
 /**
  * Processes raw feed JSON data into the 3 parts mentioned in the
