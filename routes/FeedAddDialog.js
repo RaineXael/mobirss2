@@ -115,7 +115,7 @@ export function FeedAddView(){
 
 
 const styles = StyleSheet.create({
-  loding: {
+  loading: {
     
   },
   dialog:{

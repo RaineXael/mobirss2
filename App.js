@@ -13,6 +13,7 @@ import Settings  from './routes/SettingsView';
 import {FeedView} from './routes/FeedView'
 import { KeyViewer } from './routes/DebugStorageViewer';
 import {FeedAddView} from './routes/FeedAddDialog'
+import {ArticleWebView} from './routes/ArticleView'
 const Stack = createNativeStackNavigator();
 
 export default function App() {

@@ -4,6 +4,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import { FeedInputDialog } from "./FeedAddDialog";
 import { useState, useEffect } from "react";
 import { getData, storeData } from "../modules/DataManager";
+import { DeletePopup } from "../components/DeletePopup";
 
 export default function MainView({navigation}){
 
@@ -12,6 +13,7 @@ export default function MainView({navigation}){
     },[])
     
     const [visible, setVisible] = useState(false); //for the feed input menu
+    const [deleteVisible, setDeleteVisible] = useState(true)
     const saveFeeds = async () => {
         await storeData('saved-feeds',feedList)
       }
@@ -48,6 +50,7 @@ export default function MainView({navigation}){
 
     return (
         <Surface style={styles.surface}>
+            <DeletePopup onDelete={()=>{}} name={'feed'} visible={deleteVisible}></DeletePopup>
             <FeedInputDialog saveFeedFN={saveFeeds} feedList={feedList} visible={visible} setVisible={setVisible} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {feedJSX}
@@ -90,6 +93,8 @@ function FeedCard({ feed, navigation }) {
 
     );
 }
+
+
 
 
 const styles = StyleSheet.create({
