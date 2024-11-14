@@ -74,7 +74,7 @@ export async function refreshFeed(originalJSON, feedURL){
   //Compare feed titles (and possibly dates and link?)
   //If any new entries, return a new json string with the new feeds added.
   //(Save will be handled in the refresh fns in the pages)
-  let newArticles = false
+
   const additionsToArticleList = []
 
   const feedString = await fetchFeed(feedURL)
@@ -85,25 +85,33 @@ export async function refreshFeed(originalJSON, feedURL){
   //Above is the article list. Get any new entries.
   const articleTitles = originalJSON.map((article)=>article.title)
   console.log(feedData)
+
+
   //Comparison
-  feedData.forEach(async element => {
+  for (const element of feedData){
     if (!articleTitles.includes(element.title)){
       //If article title not found in original, take it and add it.
       //Example key: https://sdamned.com/comic/rsshttps://www.sdamned.com/comic/1130 <-- rss url + article link
-      await storeData(feedURL+element.link, element);
+      await storeData(feedURL+element.link, element); //promise to save article data to proper URL
       additionsToArticleList.push(feedArticleList.find(article => article.title == element.title));
-      console.log(element.title + " added!")
-      newArticles = true
+      console.log(element.title + " added!");
     }
-  });
+  };
 
-  if (additionsToArticleList.length > 0){
-    originalJSON.concat(additionsToArticleList)
-    await storeData(feedURL+'feed', originalJSON);
-    console.log(element.title + " added!")
+
+  console.log('refresh fn done');
+
+  if (additionsToArticleList.length == 0){
+    return originalJSON;
   }
-  return newArticles;
-  //returns true or false based on if there is any new articles or not
+
+  //save feedArticles to list
+  const newFeedArticles = [...originalJSON, ...additionsToArticleList]
+  console.log(additionsToArticleList);
+  await storeData(feedURL+'feed', newFeedArticles)
+
+  return newFeedArticles;
+  //returns new feedArticles objects in an array (name title and link)
 }
 
 //Saving feeds to localstorage should be here tbh
