@@ -91,7 +91,7 @@ export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
           <>
           <Dialog.Content>
           <TextInput label="RSS URL"  
-          value={text}
+          defaultValue={text}
           onChangeText={text => setText(text)}
           error={(error.length > 0)}></TextInput>
           {(error.length > 0) && <HelperText>Error: {error}</HelperText>}
@@ -109,6 +109,9 @@ export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
   );
 }
 
+export function FeedAddView(){
+  return;
+}
 
 
 const styles = StyleSheet.create({

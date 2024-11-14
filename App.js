@@ -11,9 +11,8 @@ import { getData } from "./modules/DataManager";
 import { Appbar } from 'react-native-paper';
 import Settings  from './routes/SettingsView';
 import {FeedView} from './routes/FeedView'
-import {ArticleWebView} from './routes/ArticleView'
 import { KeyViewer } from './routes/DebugStorageViewer';
-
+import {FeedAddView} from './routes/FeedAddDialog'
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -54,6 +53,7 @@ export default function App() {
           {props => <Settings {...props} isDark={isDark} setDark={setDark} />}
         </Stack.Screen>
         <Stack.Screen name="Feed" component={FeedView}/>
+        <Stack.Screen name="Add Feed" component={FeedAddView}/>
         <Stack.Screen name="Article" component={ArticleWebView}/>
         <Stack.Screen name="DebugStorageViewer" component={KeyViewer}/>
       </Stack.Navigator>
