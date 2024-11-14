@@ -3,7 +3,8 @@
 import { ActivityIndicator, List, Surface, Divider, Dialog, Portal, Button, Searchbar, IconButton } from 'react-native-paper';
 import { View, ScrollView, RefreshControl, StyleSheet, Linking } from 'react-native';
 import { useState, useEffect } from 'react';
-import { getData } from '../modules/DataManager';
+import { getData, storeData } from '../modules/DataManager';
+import { refreshFeed } from '../modules/FeedFetcher';
 
 function ArticleItem({ item, navigation, baseURL }) {
   return (<>
@@ -57,7 +58,6 @@ const filterTypes =[
 export function FeedView({ navigation, options, route }) {
   feedURL = route.params.baseURL + 'feed';
   const [feed, setFeed] = useState([]);
-  const [currentArticle, setCurrentArticle] = useState(null); //REMOVE, a leftover from old rendering method
 
   const [filterMenu, setFilterMenu] = useState(false);
 
@@ -106,20 +106,15 @@ export function FeedView({ navigation, options, route }) {
   const [refreshing, setRefreshing] = useState(false);
 
   async function refresh() {
+    try {
+      const newArticles = await refreshFeed(feed, route.params.baseURL);
+      setFeed(newArticles);
 
-    //What was he cooking here
-
-    // const newFeed = await fetchFeed(feed.feedLink);
-
-    // console.log(newFeed.rss.channel.item);
-    // const guids = feed.item.map(elem => elem.guid);
-    // console.log(guids)
-    // //compare the two and append new titles
-    // newFeed.rss.channel.item.forEach(newFeed => {
-    //   console.log(newFeed.guid)
-
-    // });
-    setRefreshing(false);
+    } catch {
+      //error msg toast
+    } finally {
+      setRefreshing(false);
+    }
   }
 
   
@@ -146,10 +141,8 @@ export function FeedView({ navigation, options, route }) {
               loading={false}></Searchbar>
               
             </Surface>
-            {currentArticle === null && (itemJSX)}
-            {currentArticle !== null && (<ArticleWebView article={currentArticle}
-              setter={setCurrentArticle}></ArticleWebView>)}
-              
+            {itemJSX}
+
           </ScrollView>
           </View>
         }
