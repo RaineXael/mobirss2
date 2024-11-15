@@ -35,10 +35,27 @@ export function storeArticleList(baseURL, articleList) {
 }
 
 export async function deleteFeed(feedStorageURL){
-  keysToDelete = []
-  //Get all articles in the feed and clear them
-  const feedArticles = await getData(feedStorageURL);
-  console.log(feedArticles);
-  //remove the entry from the feed list array too
-  AsyncStorage.multiRemove()
+  try{
+    if (feedStorageURL === undefined){
+      console.error('deleteFeed function got an undefined feedStorageURL.');
+      return false;
+    }
+
+
+    keysToDelete = [feedStorageURL]
+    //Get all articles in the feed and clear them
+    const feedArticles =  JSON.parse(await getData(feedStorageURL));
+    
+    feedArticles.forEach((article)=>{
+      keysToDelete.push(feedStorageURL+article.link)
+    })
+    console.log('Removing the following keys: ' + keysToDelete);
+    //remove the entry from the feed list array too
+    AsyncStorage.multiRemove(keysToDelete);
+    return true
+  }
+  catch(e){
+    console.error(e);
+    return false
+  }
 }
