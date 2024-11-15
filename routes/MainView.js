@@ -4,7 +4,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import { FeedInputDialog } from "./FeedAddDialog";
 import { useState, useEffect } from "react";
 import { deleteFeed, getData, storeData } from "../modules/DataManager";
-import { DeletePopup } from "../components/DeletePopup";
+import { PopupButton } from "../components/PopupButton";
 
 export default function MainView({navigation}){
 
@@ -53,7 +53,7 @@ export default function MainView({navigation}){
 
     return (
         <Surface style={styles.surface}>
-            <DeletePopup onDelete={onFeedDelete} name={'feed'} visible={deleteVisible} hideDialog={()=>{setDeleteVisible(false)}}></DeletePopup>
+            <PopupButton visible={deleteVisible} setVisible={setDeleteVisible} onYes={onFeedDelete} text={'Are you sure you want to delete this feed?'} onNo={()=>{}}/>
             <FeedInputDialog saveFeedFN={saveFeeds} feedList={feedList} visible={visible} setVisible={setVisible} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 

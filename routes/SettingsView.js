@@ -3,6 +3,7 @@ import {Surface, Button, Checkbox, Portal, Dialog, Text, Divider, IconButton} fr
 import { storeData} from "../modules/DataManager";
 import { ScrollView, StyleSheet,Linking } from 'react-native';
 import {useState} from 'react';
+import { PopupButton } from '../components/PopupButton';
 export default function Settings({ navigation, isDark, setDark }) {
 
     const siteURL = 'http://www.rainexael.xyz';
@@ -16,7 +17,7 @@ export default function Settings({ navigation, isDark, setDark }) {
                 
                 <ShowNavOnFeedShower />
                 <Divider />
-                <ResetDataButton></ResetDataButton>
+                <ResetDataButton/>
             </ScrollView>
             <Surface elevation='1'>
                 <Button onPress={()=>{navigation.navigate("DebugStorageViewer")}}>View Storage (DEBUG)</Button>
@@ -36,30 +37,16 @@ function ResetDataButton() {
     const resetData = () => { storeData('saved-feeds', []) }
     const [visible, setVisible] = useState(false);
 
-    const hideDialog = () => setVisible(false);
+
     const confirmDeletion = () => {
         resetData();
-        alert('Feeds Deleted.');
+        alert('Feeds Deleted.'); //TODO: Change this to a native-paper thing for visual consistency
         setVisible(false);
-
     }
     return (
         <>
-            <Button onPress={() => setVisible(true)}>RESET EVERYTHING</Button>
-            <Portal>
-                <Dialog visible={visible} onDismiss={hideDialog}>
-
-
-                    <Dialog.Content>
-                        <Text>Are you sure you want to erase all the feeds you've saved?</Text>
-                    </Dialog.Content>
-                    <Dialog.Actions>
-                        <Button onPress={hideDialog}>No</Button>
-                        <Button onPress={confirmDeletion}>Yes</Button>
-                    </Dialog.Actions>
-
-                </Dialog>
-            </Portal>
+        <Button onPress={()=>{setVisible(true)}}>Reset All Stored Data</Button>
+        <PopupButton visible={visible} setVisible={setVisible} onYes={confirmDeletion} onNo={()=>{}}></PopupButton>
         </>
     );
 }
