@@ -33,3 +33,12 @@ export function storeArticleList(baseURL, articleList) {
      AsyncStorage.setItem(baseURL + article.link, JSON.stringify(article)) 
     })
 }
+
+export async function deleteFeed(feedStorageURL){
+  keysToDelete = []
+  //Get all articles in the feed and clear them
+  const feedArticles = await getData(feedStorageURL);
+  console.log(feedArticles);
+  //remove the entry from the feed list array too
+  AsyncStorage.multiRemove()
+}

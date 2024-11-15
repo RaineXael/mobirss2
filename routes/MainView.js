@@ -13,7 +13,8 @@ export default function MainView({navigation}){
     },[])
     
     const [visible, setVisible] = useState(false); //for the feed input menu
-    const [deleteVisible, setDeleteVisible] = useState(true)
+    const [deleteVisible, setDeleteVisible] = useState(false)
+    const [deletingURL, setdeletingURL] = useState(false)
     const saveFeeds = async () => {
         await storeData('saved-feeds',feedList)
       }
@@ -38,19 +39,19 @@ export default function MainView({navigation}){
     
        )},[])
 
-
-
-
-       
     const feedJSX = feedList.map(elem => {
-        return (<FeedCard feed={elem} key={elem.link} style={styles.card} navigation={navigation}></FeedCard>)
+        return (<FeedCard feed={elem} key={elem.link} style={styles.card} navigation={navigation} setDeletingURL={setdeletingURL} onDeleteQueue={()=>{setDeleteVisible(true)}}></FeedCard>)
     });
     console.log(feedJSX)
 
+    function onFeedDelete(){
+        console.log('delete');
+        setDeleteVisible(false)
+    }
 
     return (
         <Surface style={styles.surface}>
-            <DeletePopup onDelete={()=>{}} name={'feed'} visible={deleteVisible}></DeletePopup>
+            <DeletePopup onDelete={onFeedDelete} name={'feed'} visible={deleteVisible} hideDialog={()=>{setDeleteVisible(false)}}></DeletePopup>
             <FeedInputDialog saveFeedFN={saveFeeds} feedList={feedList} visible={visible} setVisible={setVisible} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 {feedJSX}
@@ -58,14 +59,14 @@ export default function MainView({navigation}){
             <FAB icon="plus" size='large' style={styles.fab} onPress={() => setVisible(true)}>Add New Feed</FAB>
         </Surface>
     );
-
-
 }
 
 
 //<Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
 
-function FeedCard({ feed, navigation }) {
+function FeedCard({ feed, navigation, setDeletingURL, onDeleteQueue}) {
+
+
 
     const [visible, setVisible] = useState(false);
     const closeMenu = () => {setVisible(false)}
@@ -88,7 +89,7 @@ function FeedCard({ feed, navigation }) {
             }>
             {/* <Menu.Item onPress={() => {closeMenu(); }} title="Mark as Read" />
             <Menu.Item onPress={() => {closeMenu(); }} title="Edit" /> */}
-            <Menu.Item onPress={() => {closeMenu(); }} title="Delete" />
+            <Menu.Item onPress={() => { setDeletingURL(); onDeleteQueue(); closeMenu();}} title="Delete" />
         </Menu>
 
     );
