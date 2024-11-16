@@ -97,9 +97,9 @@ export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
           {(error.length > 0) && <HelperText>Error: {error}</HelperText>}
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={hideDialog}>Cancel</Button>
           <Button onPress={fetchURL}>Add</Button>
-          <Button onPress={fetchSampleURL}>Fetch Sample</Button>
+          <Button onPress={hideDialog}>Cancel</Button>
+          {/* <Button onPress={fetchSampleURL}>Fetch Sample</Button> */}
         </Dialog.Actions>
         </>
         )}
@@ -115,7 +115,7 @@ export function FeedAddView(){
 
 
 const styles = StyleSheet.create({
-  loding: {
+  loading: {
     
   },
   dialog:{

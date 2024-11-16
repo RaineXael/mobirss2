@@ -3,7 +3,8 @@ import { Text, Card, Button, Surface, FAB, Appbar, ActivityIndicator, Badge, Men
 import { View, StyleSheet, ScrollView } from "react-native";
 import { FeedInputDialog } from "./FeedAddDialog";
 import { useState, useEffect } from "react";
-import { getData, storeData } from "../modules/DataManager";
+import { deleteFeed, getData, storeData } from "../modules/DataManager";
+import { PopupButton } from "../components/PopupButton";
 
 export default function MainView({navigation}){
 
@@ -12,12 +13,14 @@ export default function MainView({navigation}){
     },[])
     
     const [visible, setVisible] = useState(false); //for the feed input menu
+    const [deleteVisible, setDeleteVisible] = useState(false)
+    const [deletingURL, setdeletingURL] = useState(false)
     const saveFeeds = async () => {
         await storeData('saved-feeds',feedList)
-      }
+    }
     
       const [feedList, setFeedList] = useState([]);
-      const [feedsLoaded, setLoaded] = useState(false);
+      const [feedsLoaded, setLoaded] = useState(false); //TODO: Add a loading bar to this var
       
     
       useEffect(() => {
@@ -37,32 +40,40 @@ export default function MainView({navigation}){
        )},[])
 
 
+    async function onFeedDelete(){
+        await deleteFeed(deletingURL + 'feed', deletingURL);
+        console.log(deletingURL + 'feed');
+        const updatedFeedList = feedList.filter(entry => entry.feedLink !== deletingURL)
+        setFeedList(updatedFeedList);
+        console.log('new list: ' + updatedFeedList)
+        await storeData('saved-feeds', updatedFeedList)
 
-
-       
-    const feedJSX = feedList.map(elem => {
-        return (<FeedCard feed={elem} key={elem.link} style={styles.card} navigation={navigation}></FeedCard>)
-    });
-    console.log(feedJSX)
-
+        setDeleteVisible(false)
+    }
 
     return (
         <Surface style={styles.surface}>
+            <PopupButton visible={deleteVisible} setVisible={setDeleteVisible} onYes={onFeedDelete} text={'Are you sure you want to delete this feed?'} onNo={()=>{}}/>
             <FeedInputDialog saveFeedFN={saveFeeds} feedList={feedList} visible={visible} setVisible={setVisible} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                {feedJSX}
+                
+                {feedList.map(elem => {
+                    return (<FeedCard feed={elem} key={elem.link} style={styles.card} navigation={navigation}
+                        setDeletingURL={setdeletingURL} onDeleteQueue={() => { setDeleteVisible(true) }}></FeedCard>)
+                })}
+            
             </ScrollView>
             <FAB icon="plus" size='large' style={styles.fab} onPress={() => setVisible(true)}>Add New Feed</FAB>
         </Surface>
     );
-
-
 }
 
 
 //<Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
 
-function FeedCard({ feed, navigation }) {
+function FeedCard({ feed, navigation, setDeletingURL, onDeleteQueue}) {
+
+
 
     const [visible, setVisible] = useState(false);
     const closeMenu = () => {setVisible(false)}
@@ -85,11 +96,13 @@ function FeedCard({ feed, navigation }) {
             }>
             {/* <Menu.Item onPress={() => {closeMenu(); }} title="Mark as Read" />
             <Menu.Item onPress={() => {closeMenu(); }} title="Edit" /> */}
-            <Menu.Item onPress={() => {closeMenu(); }} title="Delete" />
+            <Menu.Item onPress={() => { setDeletingURL(feed.feedLink); onDeleteQueue(); closeMenu();}} title="Delete" />
         </Menu>
 
     );
 }
+
+
 
 
 const styles = StyleSheet.create({
