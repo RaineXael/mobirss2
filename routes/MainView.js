@@ -41,7 +41,7 @@ export default function MainView({navigation}){
 
 
     async function onFeedDelete(){
-        await deleteFeed(deletingURL + 'feed');
+        await deleteFeed(deletingURL + 'feed', deletingURL);
         console.log(deletingURL + 'feed');
         const updatedFeedList = feedList.filter(entry => entry.feedLink !== deletingURL)
         setFeedList(updatedFeedList);

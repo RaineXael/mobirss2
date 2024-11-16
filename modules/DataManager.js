@@ -34,7 +34,7 @@ export function storeArticleList(baseURL, articleList) {
     })
 }
 
-export async function deleteFeed(feedStorageURL){
+export async function deleteFeed(feedStorageURL, rssURL){
   try{
     if (feedStorageURL === undefined){
       console.error('deleteFeed function got an undefined feedStorageURL.');
@@ -47,7 +47,7 @@ export async function deleteFeed(feedStorageURL){
     const feedArticles =  JSON.parse(await getData(feedStorageURL));
     
     feedArticles.forEach((article)=>{
-      keysToDelete.push(feedStorageURL+article.link)
+      keysToDelete.push(rssURL+article.link)
     })
     console.log('Removing the following keys: ' + keysToDelete);
     //remove the entry from the feed list array too
