@@ -99,7 +99,7 @@ export function FeedInputDialog({feedList, saveFeedFN, visible, setVisible}) {
         <Dialog.Actions>
           <Button onPress={hideDialog}>Cancel</Button>
           <Button onPress={fetchURL}>Add</Button>
-          <Button onPress={fetchSampleURL}>Fetch Sample</Button>
+          {/* <Button onPress={fetchSampleURL}>Fetch Sample</Button> */}
         </Dialog.Actions>
         </>
         )}
